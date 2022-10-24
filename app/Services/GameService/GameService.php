@@ -16,22 +16,37 @@ class GameService
     {
     }
 
+    /**
+     * @return Collection
+     */
     public function index(): Collection
     {
         return $this->accessor->index();
     }
 
+    /**
+     * @return Model
+     */
     public function create(): Model
     {
         return $this->accessor->create();
     }
 
+    /**
+     * @param string $uuid
+     * @return array
+     */
     public function get(string $uuid): array
     {
         $game = $this->accessor->get($uuid);
         return $this->aggregator->gameResource($game);
     }
 
+    /**
+     * @param string $uuid
+     * @param string $piece
+     * @param array $validated
+     */
     public function setPiece(string $uuid, string $piece, array $validated): void
     {
         $game = $this->accessor->get($uuid);
@@ -44,6 +59,11 @@ class GameService
         }
     }
 
+    /**
+     * @param Model $game
+     * @param string $piece
+     * @return bool
+     */
     private function validTurn(Model $game, string $piece): bool
     {
         $validTurn = $game->current_turn === $piece;
@@ -53,6 +73,11 @@ class GameService
         return $validTurn;
     }
 
+    /**
+     * @param Model $game
+     * @param string $vector
+     * @return bool
+     */
     private function validPosition(Model $game, string $vector): bool
     {
         $validPosition = is_null($game->board[$vector]);
@@ -62,6 +87,9 @@ class GameService
         return $validPosition;
     }
 
+    /**
+     * @param string $uuid
+     */
     public function checkForVictory(string $uuid): void
     {
         $game = $this->accessor->get($uuid);
@@ -91,11 +119,17 @@ class GameService
         }
     }
 
+    /**
+     * @param string $uuid
+     */
     public function restart(string $uuid)
     {
         $this->accessor->restart($uuid);
     }
 
+    /**
+     * @param string $uuid
+     */
     public function delete(string $uuid)
     {
         $this->accessor->delete($uuid);

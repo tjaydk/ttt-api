@@ -18,21 +18,37 @@ class GameController extends Controller
     {
     }
 
+    /**
+     * @return Collection
+     */
     public function index(): Collection
     {
         return $this->service->index();
     }
 
+    /**
+     * @return Model
+     */
     public function create(): Model
     {
         return $this->service->create();
     }
 
+    /**
+     * @param string $uuid
+     * @return JsonResponse
+     */
     public function get(string $uuid): JsonResponse
     {
         return response()->json($this->service->get($uuid));
     }
 
+    /**
+     * @param string $uuid
+     * @param string $piece
+     * @param SetPieceRequest $request
+     * @return JsonResponse
+     */
     public function setPiece(string $uuid, string $piece, SetPieceRequest $request): JsonResponse
     {
         try {
@@ -43,17 +59,28 @@ class GameController extends Controller
         }
     }
 
+    /**
+     * @param string $uuid
+     */
     public function checkForVictory(string $uuid): void
     {
         $this->service->checkForVictory($uuid);
     }
 
+    /**
+     * @param string $uuid
+     * @return array
+     */
     public function restart(string $uuid): array
     {
         $this->service->restart($uuid);
         return $this->service->get($uuid);
     }
 
+    /**
+     * @param string $uuid
+     * @return array
+     */
     public function delete(string $uuid): array
     {
         $this->service->delete($uuid);
